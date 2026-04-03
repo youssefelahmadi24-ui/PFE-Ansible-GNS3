@@ -1,0 +1,21 @@
+---
+- name: "PFE : Affectation des Ports aux VLANs respectifs"
+  hosts: SW1
+  gather_facts: no
+
+  tasks:
+    - name: "Configuration des Interfaces d'accès"
+      cisco.ios.ios_config:
+        lines:
+          - switchport mode access
+          - switchport access vlan {{ item.vlan }}
+          - spanning-tree portfast
+        parents: interface {{ item.port }}
+      loop:
+        - { port: 'GigabitEthernet0/2', vlan: 20 }  # PC Admin
+        - { port: 'GigabitEthernet0/3', vlan: 30 }  # PC Utilisateur
+        - { port: 'GigabitEthernet1/0', vlan: 10 }  # Zone DMZ / Serveur
+
+    - name: "Sauvegarde de la configuration"
+      cisco.ios.ios_command:
+        commands: write memory

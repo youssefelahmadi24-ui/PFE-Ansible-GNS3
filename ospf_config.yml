@@ -1,0 +1,19 @@
+---
+- name: "PFE : Routage Dynamique OSPF entre R1 et R2"
+  hosts: routers
+  gather_facts: no
+
+  tasks:
+    - name: "Configuration du protocole OSPF"
+      cisco.ios.ios_config:
+        lines:
+          - network 192.168.122.0 0.0.0.255 area 0
+          - network 192.168.10.0 0.0.0.255 area 0
+          - network 192.168.20.0 0.0.0.255 area 0
+          - network 192.168.30.0 0.0.0.255 area 0
+          - log-adjacency-changes
+        parents: router ospf 1
+
+    - name: "Sauvegarde de la configuration (Write Memory)"
+      cisco.ios.ios_command:
+        commands: write memory
