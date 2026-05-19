@@ -156,13 +156,8 @@ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts.ini configure_switch.y
 ## ✅ Tests and Verification Results
 
 | Test | Verification Command | Expected Result |
-
 | :--- | :--- | :--- |
-
 | *VLANs* | show vlan brief | VLANs 10, 20, and 30 are active on SW1. |
-
 | *Routing* | show ip route | R1 and R2 are aware of the VLAN networks via OSPF. |
-
 | *DHCP* | ip dhcp (on VPCS) | Clients are receiving an IP address in their respective range (192.168.x.0/24). |
-
 | *Connectivity* | ping 192.168.10.10 | Communication successful between the different VLANs. |
